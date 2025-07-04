@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Users, TrendingUp, Sparkles } from "lucide-react";
+import { Star, Users, TrendingUp, Sparkles, Save } from "lucide-react";
 
 interface BusinessData {
   rating: number;
@@ -24,6 +24,25 @@ export function BusinessDataCard({
   onRegenerateHeadline,
   isRegenerating
 }: BusinessDataCardProps) {
+  const handleSaveData = () => {
+    const businessData = {
+      businessName,
+      location,
+      rating: data.rating,
+      reviews: data.reviews,
+      headline: data.headline,
+      generatedAt: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(businessData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_business_data.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
   return (
     <Card className="w-full max-w-2xl mx-auto bg-business-card border-0 shadow-elevation">
       <CardHeader className="pb-4">
@@ -34,9 +53,20 @@ export function BusinessDataCard({
             </CardTitle>
             <p className="text-muted-foreground font-medium">{location}</p>
           </div>
-          <Badge variant="secondary" className="bg-business-secondary text-business-primary font-semibold">
-            Live Data
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSaveData}
+              className="border-business-primary/30 hover:bg-business-primary/10"
+            >
+              <Save className="h-4 w-4" />
+              Save Data
+            </Button>
+            <Badge variant="secondary" className="bg-business-secondary text-business-primary font-semibold">
+              Live Data
+            </Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
