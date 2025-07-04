@@ -61,7 +61,26 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				business: {
+					primary: 'hsl(var(--business-primary))',
+					secondary: 'hsl(var(--business-secondary))',
+					success: 'hsl(var(--business-success))',
+					warning: 'hsl(var(--business-warning))'
 				}
+			},
+			backgroundImage: {
+				'business-gradient': 'var(--business-gradient)',
+				'business-card': 'var(--business-card-gradient)'
+			},
+			boxShadow: {
+				'business': 'var(--shadow-business)',
+				'card-elevated': 'var(--shadow-card)',
+				'elevation': 'var(--shadow-elevation)'
+			},
+			transitionProperty: {
+				'smooth': 'var(--transition-smooth)',
+				'fast': 'var(--transition-fast)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
