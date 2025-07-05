@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Star, Users, TrendingUp, Sparkles, Save, Edit2, Check, X } from "lucide-react";
+import { Star, Users, TrendingUp, Sparkles, Save, Edit2, Check, X, ArrowLeft } from "lucide-react";
 
 interface BusinessData {
   rating: number;
@@ -18,6 +18,7 @@ interface BusinessDataCardProps {
   data: BusinessData;
   onRegenerateHeadline: () => void;
   onUpdateData: (updatedData: Partial<BusinessData>) => void;
+  onBackToDashboard: () => void;
   isRegenerating?: boolean;
 }
 
@@ -27,6 +28,7 @@ export function BusinessDataCard({
   data,
   onRegenerateHeadline,
   onUpdateData,
+  onBackToDashboard,
   isRegenerating
 }: BusinessDataCardProps) {
   const [savedData, setSavedData] = useState<any>(null);
@@ -89,6 +91,15 @@ export function BusinessDataCard({
             <p className="text-muted-foreground font-medium">{location}</p>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBackToDashboard}
+              className="border-business-primary/30 hover:bg-business-primary/10"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Dashboard
+            </Button>
             <Button
               variant="outline"
               size="sm"

@@ -43,6 +43,11 @@ const Index = () => {
     }
   };
 
+  const handleBackToDashboard = () => {
+    setBusinessInfo(null);
+    setBusinessData(null);
+  };
+
   const handleUpdateData = (updatedData: Partial<BusinessData>) => {
     setBusinessData(prev => prev ? { ...prev, ...updatedData } : null);
   };
@@ -127,6 +132,7 @@ const Index = () => {
               data={businessData}
               onRegenerateHeadline={handleRegenerateHeadline}
               onUpdateData={handleUpdateData}
+              onBackToDashboard={handleBackToDashboard}
               isRegenerating={isRegenerating}
             />
           )}
