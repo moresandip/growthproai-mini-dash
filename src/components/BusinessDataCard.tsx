@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Star, Users, TrendingUp, Sparkles, Save } from "lucide-react";
 
 interface BusinessData {
@@ -24,6 +26,9 @@ export function BusinessDataCard({
   onRegenerateHeadline,
   isRegenerating
 }: BusinessDataCardProps) {
+  const [savedData, setSavedData] = useState<any>(null);
+  const [showSavedTemplate, setShowSavedTemplate] = useState(false);
+
   const handleSaveData = () => {
     const businessData = {
       businessName,
@@ -33,6 +38,9 @@ export function BusinessDataCard({
       headline: data.headline,
       generatedAt: new Date().toISOString()
     };
+    
+    setSavedData(businessData);
+    setShowSavedTemplate(true);
     
     const dataStr = JSON.stringify(businessData, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -143,6 +151,45 @@ export function BusinessDataCard({
           </Button>
         </div>
       </CardContent>
+      
+      {/* Saved Data Template Dialog */}
+      <Dialog open={showSavedTemplate} onOpenChange={setShowSavedTemplate}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-business-primary">Saved Business Data Template</DialogTitle>
+          </DialogHeader>
+          {savedData && (
+            <div className="space-y-4">
+              <div className="p-4 bg-card rounded-lg border">
+                <h3 className="font-semibold text-lg mb-2">{savedData.businessName}</h3>
+                <p className="text-muted-foreground mb-4">{savedData.location}</p>
+                
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="p-3 bg-business-success/10 rounded-lg border border-business-success/20">
+                    <p className="text-sm font-medium text-muted-foreground">Rating</p>
+                    <p className="text-xl font-bold text-business-success">{savedData.rating} ⭐</p>
+                  </div>
+                  <div className="p-3 bg-business-primary/10 rounded-lg border border-business-primary/20">
+                    <p className="text-sm font-medium text-muted-foreground">Reviews</p>
+                    <p className="text-xl font-bold text-business-primary">{savedData.reviews}</p>
+                  </div>
+                </div>
+                
+                <div className="p-4 bg-accent/20 rounded-lg border border-accent">
+                  <p className="text-sm font-medium text-muted-foreground mb-2">SEO Headline</p>
+                  <p className="text-base font-medium italic">"{savedData.headline}"</p>
+                </div>
+                
+                <div className="mt-4 pt-4 border-t">
+                  <p className="text-xs text-muted-foreground">
+                    Generated: {new Date(savedData.generatedAt).toLocaleDateString()} at {new Date(savedData.generatedAt).toLocaleTimeString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }
