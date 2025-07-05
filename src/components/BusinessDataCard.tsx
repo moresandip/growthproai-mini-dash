@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Star, Users, TrendingUp, Sparkles, Save } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Star, Users, TrendingUp, Sparkles, Save, Edit2, Check, X } from "lucide-react";
 
 interface BusinessData {
   rating: number;
@@ -16,6 +17,7 @@ interface BusinessDataCardProps {
   location: string;
   data: BusinessData;
   onRegenerateHeadline: () => void;
+  onUpdateData: (updatedData: Partial<BusinessData>) => void;
   isRegenerating?: boolean;
 }
 
@@ -24,10 +26,15 @@ export function BusinessDataCard({
   location,
   data,
   onRegenerateHeadline,
+  onUpdateData,
   isRegenerating
 }: BusinessDataCardProps) {
   const [savedData, setSavedData] = useState<any>(null);
   const [showSavedTemplate, setShowSavedTemplate] = useState(false);
+  const [isEditingRating, setIsEditingRating] = useState(false);
+  const [isEditingReviews, setIsEditingReviews] = useState(false);
+  const [tempRating, setTempRating] = useState(data.rating);
+  const [tempReviews, setTempReviews] = useState(data.reviews);
 
   const handleSaveData = () => {
     const businessData = {
@@ -50,6 +57,26 @@ export function BusinessDataCard({
     link.download = `${businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_business_data.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSaveRating = () => {
+    onUpdateData({ rating: tempRating });
+    setIsEditingRating(false);
+  };
+
+  const handleCancelRating = () => {
+    setTempRating(data.rating);
+    setIsEditingRating(false);
+  };
+
+  const handleSaveReviews = () => {
+    onUpdateData({ reviews: tempReviews });
+    setIsEditingReviews(false);
+  };
+
+  const handleCancelReviews = () => {
+    setTempReviews(data.reviews);
+    setIsEditingReviews(false);
   };
   return (
     <Card className="w-full max-w-2xl mx-auto bg-business-card border-0 shadow-elevation">
@@ -84,23 +111,65 @@ export function BusinessDataCard({
             <div className="p-2 rounded-full bg-business-success/20">
               <Star className="h-5 w-5 text-business-success" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Google Rating</p>
-              <div className="flex items-center space-x-1">
-                <span className="text-2xl font-bold text-business-success">{data.rating}</span>
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${
-                        i < Math.floor(data.rating)
-                          ? "text-business-warning fill-current"
-                          : "text-muted-foreground/30"
-                      }`}
-                    />
-                  ))}
-                </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-sm font-medium text-muted-foreground">Google Rating</p>
+                {!isEditingRating && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsEditingRating(true)}
+                    className="h-6 w-6 p-0"
+                  >
+                    <Edit2 className="h-3 w-3" />
+                  </Button>
+                )}
               </div>
+              {isEditingRating ? (
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    value={tempRating}
+                    onChange={(e) => setTempRating(parseFloat(e.target.value))}
+                    className="w-20 h-8"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSaveRating}
+                    className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
+                  >
+                    <Check className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCancelRating}
+                    className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-1">
+                  <span className="text-2xl font-bold text-business-success">{data.rating}</span>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-4 w-4 ${
+                          i < Math.floor(data.rating)
+                            ? "text-business-warning fill-current"
+                            : "text-muted-foreground/30"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -108,9 +177,49 @@ export function BusinessDataCard({
             <div className="p-2 rounded-full bg-business-primary/20">
               <Users className="h-5 w-5 text-business-primary" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Reviews</p>
-              <span className="text-2xl font-bold text-business-primary">{data.reviews}</span>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-sm font-medium text-muted-foreground">Total Reviews</p>
+                {!isEditingReviews && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsEditingReviews(true)}
+                    className="h-6 w-6 p-0"
+                  >
+                    <Edit2 className="h-3 w-3" />
+                  </Button>
+                )}
+              </div>
+              {isEditingReviews ? (
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="number"
+                    min="0"
+                    value={tempReviews}
+                    onChange={(e) => setTempReviews(parseInt(e.target.value) || 0)}
+                    className="w-24 h-8"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSaveReviews}
+                    className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
+                  >
+                    <Check className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleCancelReviews}
+                    className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-2xl font-bold text-business-primary">{data.reviews}</span>
+              )}
             </div>
           </div>
         </div>

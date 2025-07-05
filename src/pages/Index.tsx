@@ -43,6 +43,10 @@ const Index = () => {
     }
   };
 
+  const handleUpdateData = (updatedData: Partial<BusinessData>) => {
+    setBusinessData(prev => prev ? { ...prev, ...updatedData } : null);
+  };
+
   const handleRegenerateHeadline = async () => {
     if (!businessInfo) return;
     
@@ -122,6 +126,7 @@ const Index = () => {
               location={businessInfo!.location}
               data={businessData}
               onRegenerateHeadline={handleRegenerateHeadline}
+              onUpdateData={handleUpdateData}
               isRegenerating={isRegenerating}
             />
           )}
