@@ -65,22 +65,30 @@ export default {
 				business: {
 					primary: 'hsl(var(--business-primary))',
 					secondary: 'hsl(var(--business-secondary))',
+					accent: 'hsl(var(--business-accent))',
 					success: 'hsl(var(--business-success))',
-					warning: 'hsl(var(--business-warning))'
+					warning: 'hsl(var(--business-warning))',
+					info: 'hsl(var(--business-info))',
+					danger: 'hsl(var(--business-danger))'
 				}
 			},
 			backgroundImage: {
 				'business-gradient': 'var(--business-gradient)',
-				'business-card': 'var(--business-card-gradient)'
+				'business-card': 'var(--business-card-gradient)',
+				'hero-gradient': 'var(--hero-gradient)',
+				'glow-gradient': 'var(--glow-gradient)'
 			},
 			boxShadow: {
 				'business': 'var(--shadow-business)',
 				'card-elevated': 'var(--shadow-card)',
-				'elevation': 'var(--shadow-elevation)'
+				'elevation': 'var(--shadow-elevation)',
+				'glow': 'var(--shadow-glow)',
+				'inner': 'var(--shadow-inner)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)',
-				'fast': 'var(--transition-fast)'
+				'fast': 'var(--transition-fast)',
+				'bounce': 'var(--transition-bounce)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

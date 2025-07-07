@@ -82,15 +82,16 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animated-bg">
       {/* Header */}
-      <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6">
+      <header className="glass border-b border-border/30 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold bg-business-gradient bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-4 float">
               GrowthProAI
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="w-16 h-1 bg-business-gradient mx-auto rounded-full mb-4"></div>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
               Mini Local Business Dashboard - Analyze your business presence and generate AI-powered SEO content
             </p>
           </div>
@@ -98,34 +99,34 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <main className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto space-y-12">
           {!businessData ? (
-            <div className="flex flex-col items-center space-y-6">
+            <div className="flex flex-col items-center space-y-12">
               <BusinessForm onSubmit={handleFormSubmit} isLoading={isLoading} />
               
               {/* Feature highlights */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12 w-full max-w-3xl">
-                <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-business-primary/20 flex items-center justify-center">
-                    <span className="text-business-primary font-bold">★</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 w-full max-w-4xl">
+                <div className="glass p-8 rounded-2xl text-center hover-glow transform hover:-translate-y-2 transition-bounce">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-business-gradient p-4 pulse-glow">
+                    <span className="text-white font-bold text-2xl">★</span>
                   </div>
-                  <h3 className="font-semibold mb-1">Google Insights</h3>
-                  <p className="text-sm text-muted-foreground">Real-time ratings and reviews analysis</p>
+                  <h3 className="font-semibold text-xl mb-3 text-foreground">Google Insights</h3>
+                  <p className="text-muted-foreground">Real-time ratings and reviews analysis</p>
                 </div>
-                <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-business-success/20 flex items-center justify-center">
-                    <span className="text-business-success font-bold">AI</span>
+                <div className="glass p-8 rounded-2xl text-center hover-glow transform hover:-translate-y-2 transition-bounce">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-business-secondary to-business-accent p-4 pulse-glow">
+                    <span className="text-white font-bold text-xl">AI</span>
                   </div>
-                  <h3 className="font-semibold mb-1">SEO Headlines</h3>
-                  <p className="text-sm text-muted-foreground">AI-generated content for better visibility</p>
+                  <h3 className="font-semibold text-xl mb-3 text-foreground">SEO Headlines</h3>
+                  <p className="text-muted-foreground">AI-generated content for better visibility</p>
                 </div>
-                <div className="text-center p-4">
-                  <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-business-secondary/60 flex items-center justify-center">
-                    <span className="text-business-primary font-bold">📊</span>
+                <div className="glass p-8 rounded-2xl text-center hover-glow transform hover:-translate-y-2 transition-bounce">
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-business-info to-business-success p-4 pulse-glow">
+                    <span className="text-white font-bold text-xl">📊</span>
                   </div>
-                  <h3 className="font-semibold mb-1">Business Analytics</h3>
-                  <p className="text-sm text-muted-foreground">Comprehensive performance insights</p>
+                  <h3 className="font-semibold text-xl mb-3 text-foreground">Business Analytics</h3>
+                  <p className="text-muted-foreground">Comprehensive performance insights</p>
                 </div>
               </div>
             </div>
@@ -144,9 +145,11 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 mt-16">
-        <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          <p>© 2025 GrowthProAI - Empowering local businesses with AI-driven insights</p>
+      <footer className="glass border-t border-border/30 mt-20">
+        <div className="container mx-auto px-4 py-8 text-center">
+          <p className="text-muted-foreground text-sm">
+            © 2025 GrowthProAI - Empowering local businesses with AI-driven insights
+          </p>
         </div>
       </footer>
     </div>

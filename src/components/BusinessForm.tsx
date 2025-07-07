@@ -21,17 +21,18 @@ export function BusinessForm({ onSubmit, isLoading }: BusinessFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-business-card border-0 shadow-card-elevated">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="text-2xl font-bold bg-business-gradient bg-clip-text text-transparent">
+    <Card className="w-full max-w-lg mx-auto glass shadow-elevation hover:shadow-glow transition-smooth transform hover:-translate-y-2">
+      <CardHeader className="text-center pb-6">
+        <CardTitle className="text-3xl font-bold gradient-text mb-2">
           Business Dashboard
         </CardTitle>
-        <p className="text-muted-foreground">Enter your business details to get started</p>
+        <p className="text-muted-foreground text-base">Enter your business details to get started</p>
+        <div className="w-12 h-1 bg-business-gradient mx-auto rounded-full mt-4"></div>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="businessName" className="text-sm font-medium">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-3">
+            <Label htmlFor="businessName" className="text-sm font-semibold text-foreground">
               Business Name
             </Label>
             <Input
@@ -40,12 +41,12 @@ export function BusinessForm({ onSubmit, isLoading }: BusinessFormProps) {
               placeholder="e.g., Cake & Co"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
-              className="transition-all duration-200 focus:shadow-business border-border/50"
+              className="transition-smooth focus:shadow-business hover:shadow-card-elevated border-border/50 bg-card/50 backdrop-blur-sm"
               required
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="location" className="text-sm font-medium">
+          <div className="space-y-3">
+            <Label htmlFor="location" className="text-sm font-semibold text-foreground">
               Location
             </Label>
             <Input
@@ -54,18 +55,25 @@ export function BusinessForm({ onSubmit, isLoading }: BusinessFormProps) {
               placeholder="e.g., Mumbai"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="transition-all duration-200 focus:shadow-business border-border/50"
+              className="transition-smooth focus:shadow-business hover:shadow-card-elevated border-border/50 bg-card/50 backdrop-blur-sm"
               required
             />
           </div>
           <Button
             type="submit"
-            variant="business"
+            variant="premium"
             size="lg"
-            className="w-full mt-6"
+            className="w-full mt-8"
             disabled={isLoading || !businessName.trim() || !location.trim()}
           >
-            {isLoading ? "Analyzing..." : "Get Business Insights"}
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+                Analyzing...
+              </>
+            ) : (
+              "Get Business Insights"
+            )}
           </Button>
         </form>
       </CardContent>

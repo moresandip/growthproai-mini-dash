@@ -81,35 +81,35 @@ export function BusinessDataCard({
     setIsEditingReviews(false);
   };
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-business-card border-0 shadow-elevation">
-      <CardHeader className="pb-4">
+    <Card className="w-full max-w-4xl mx-auto glass shadow-elevation hover:shadow-glow transition-smooth">
+      <CardHeader className="pb-6">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold text-foreground">
+            <CardTitle className="text-3xl font-bold gradient-text mb-2">
               {businessName}
             </CardTitle>
-            <p className="text-muted-foreground font-medium">{location}</p>
+            <p className="text-muted-foreground font-medium text-lg">{location}</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Button
-              variant="ghost"
+              variant="glass"
               size="sm"
               onClick={onBackToDashboard}
-              className="border-business-primary/30 hover:bg-business-primary/10"
+              className="hover:-translate-y-1 transition-bounce"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Dashboard
             </Button>
             <Button
-              variant="outline"
+              variant="glass"
               size="sm"
               onClick={handleSaveData}
-              className="border-business-primary/30 hover:bg-business-primary/10"
+              className="hover:-translate-y-1 transition-bounce"
             >
               <Save className="h-4 w-4" />
               Save Data
             </Button>
-            <Badge variant="secondary" className="bg-business-secondary text-business-primary font-semibold">
+            <Badge variant="secondary" className="bg-business-gradient text-white font-semibold px-4 py-2 shadow-card-elevated">
               Live Data
             </Badge>
           </div>
@@ -117,154 +117,159 @@ export function BusinessDataCard({
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Google Business Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-center space-x-3 p-4 rounded-lg bg-gradient-to-br from-business-success/10 to-business-success/5 border border-business-success/20">
-            <div className="p-2 rounded-full bg-business-success/20">
-              <Star className="h-5 w-5 text-business-success" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-sm font-medium text-muted-foreground">Google Rating</p>
-                {!isEditingRating && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsEditingRating(true)}
-                    className="h-6 w-6 p-0"
-                  >
-                    <Edit2 className="h-3 w-3" />
-                  </Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="glass p-6 rounded-2xl hover-glow transform hover:-translate-y-1 transition-bounce">
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="p-3 rounded-2xl bg-business-success/20 shadow-inner">
+                <Star className="h-6 w-6 text-business-success" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Google Rating</p>
+                  {!isEditingRating && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingRating(true)}
+                      className="h-6 w-6 p-0 hover:bg-business-primary/20"
+                    >
+                      <Edit2 className="h-3 w-3" />
+                    </Button>
+                  )}
+                </div>
+                {isEditingRating ? (
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      value={tempRating}
+                      onChange={(e) => setTempRating(parseFloat(e.target.value))}
+                      className="w-20 h-8 glass"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleSaveRating}
+                      className="h-6 w-6 p-0 text-business-success hover:text-business-success/80"
+                    >
+                      <Check className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleCancelRating}
+                      className="h-6 w-6 p-0 text-business-danger hover:text-business-danger/80"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-3xl font-bold text-business-success">{data.rating}</span>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`h-5 w-5 ${
+                            i < Math.floor(data.rating)
+                              ? "text-business-warning fill-current"
+                              : "text-muted-foreground/30"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
-              {isEditingRating ? (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="number"
-                    min="0"
-                    max="5"
-                    step="0.1"
-                    value={tempRating}
-                    onChange={(e) => setTempRating(parseFloat(e.target.value))}
-                    className="w-20 h-8"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleSaveRating}
-                    className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
-                  >
-                    <Check className="h-3 w-3" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleCancelRating}
-                    className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-1">
-                  <span className="text-2xl font-bold text-business-success">{data.rating}</span>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`h-4 w-4 ${
-                          i < Math.floor(data.rating)
-                            ? "text-business-warning fill-current"
-                            : "text-muted-foreground/30"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 p-4 rounded-lg bg-gradient-to-br from-business-primary/10 to-business-primary/5 border border-business-primary/20">
-            <div className="p-2 rounded-full bg-business-primary/20">
-              <Users className="h-5 w-5 text-business-primary" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-sm font-medium text-muted-foreground">Total Reviews</p>
-                {!isEditingReviews && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsEditingReviews(true)}
-                    className="h-6 w-6 p-0"
-                  >
-                    <Edit2 className="h-3 w-3" />
-                  </Button>
+          <div className="glass p-6 rounded-2xl hover-glow transform hover:-translate-y-1 transition-bounce">
+            <div className="flex items-center space-x-4 mb-4">
+              <div className="p-3 rounded-2xl bg-business-primary/20 shadow-inner">
+                <Users className="h-6 w-6 text-business-primary" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Total Reviews</p>
+                  {!isEditingReviews && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingReviews(true)}
+                      className="h-6 w-6 p-0 hover:bg-business-primary/20"
+                    >
+                      <Edit2 className="h-3 w-3" />
+                    </Button>
+                  )}
+                </div>
+                {isEditingReviews ? (
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="number"
+                      min="0"
+                      value={tempReviews}
+                      onChange={(e) => setTempReviews(parseInt(e.target.value) || 0)}
+                      className="w-24 h-8 glass"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleSaveReviews}
+                      className="h-6 w-6 p-0 text-business-success hover:text-business-success/80"
+                    >
+                      <Check className="h-3 w-3" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleCancelReviews}
+                      className="h-6 w-6 p-0 text-business-danger hover:text-business-danger/80"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ) : (
+                  <span className="text-3xl font-bold text-business-primary">{data.reviews}</span>
                 )}
               </div>
-              {isEditingReviews ? (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="number"
-                    min="0"
-                    value={tempReviews}
-                    onChange={(e) => setTempReviews(parseInt(e.target.value) || 0)}
-                    className="w-24 h-8"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleSaveReviews}
-                    className="h-6 w-6 p-0 text-green-600 hover:text-green-700"
-                  >
-                    <Check className="h-3 w-3" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleCancelReviews}
-                    className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <span className="text-2xl font-bold text-business-primary">{data.reviews}</span>
-              )}
             </div>
           </div>
         </div>
 
         {/* SEO Headline Section */}
-        <div className="p-6 rounded-lg bg-gradient-to-br from-accent/50 to-accent/20 border border-accent">
-          <div className="flex items-center space-x-2 mb-3">
-            <div className="p-1.5 rounded-full bg-business-primary/20">
-              <TrendingUp className="h-4 w-4 text-business-primary" />
+        <div className="glass p-8 rounded-2xl hover-glow">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 rounded-full bg-business-primary/20 shadow-inner">
+              <TrendingUp className="h-5 w-5 text-business-primary" />
             </div>
-            <h3 className="font-semibold text-foreground">AI-Generated SEO Headline</h3>
-            <Badge variant="outline" className="bg-white/50 border-business-primary/30 text-business-primary text-xs">
+            <h3 className="font-bold text-xl text-foreground">AI-Generated SEO Headline</h3>
+            <Badge variant="outline" className="bg-business-gradient text-white border-0 font-semibold px-3 py-1">
               Latest
             </Badge>
           </div>
           
-          <blockquote className="text-lg font-medium text-foreground/90 italic mb-4 leading-relaxed">
+          <blockquote className="text-xl font-medium text-foreground italic mb-6 leading-relaxed p-4 border-l-4 border-business-gradient bg-business-primary/5 rounded-r-lg">
             "{data.headline}"
           </blockquote>
           
           <Button
             variant="regenerate"
+            size="lg"
             onClick={onRegenerateHeadline}
             disabled={isRegenerating}
             className="w-full md:w-auto"
           >
             {isRegenerating ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
                 Generating...
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-5 w-5" />
                 Regenerate SEO Headline
               </>
             )}
