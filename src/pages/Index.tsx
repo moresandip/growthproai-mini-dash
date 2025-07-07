@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BusinessForm } from "@/components/BusinessForm";
 import { BusinessDataCard } from "@/components/BusinessDataCard";
-import { mockApiService } from "@/utils/mockApi";
+import { apiService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 
 interface BusinessData {
@@ -25,7 +25,7 @@ const Index = () => {
   const handleFormSubmit = async (data: BusinessInfo) => {
     setIsLoading(true);
     try {
-      const result = await mockApiService.getBusinessData(data);
+      const result = await apiService.getBusinessData(data);
       setBusinessInfo(data);
       setBusinessData(result);
       toast({
@@ -33,11 +33,13 @@ const Index = () => {
         description: `Business insights loaded for ${data.name}`,
       });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to load business data";
       toast({
         title: "Error",
-        description: "Failed to load business data. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
+      console.error("API Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +59,7 @@ const Index = () => {
     
     setIsRegenerating(true);
     try {
-      const newHeadline = await mockApiService.regenerateHeadline(
+      const newHeadline = await apiService.regenerateHeadline(
         businessInfo.name,
         businessInfo.location
       );
@@ -67,11 +69,13 @@ const Index = () => {
         description: "New SEO headline generated successfully.",
       });
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to regenerate headline";
       toast({
         title: "Error",
-        description: "Failed to regenerate headline. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
+      console.error("API Error:", error);
     } finally {
       setIsRegenerating(false);
     }
